@@ -283,7 +283,8 @@ def pilihfilmscreen():
         wrapper3 = LabelFrame(myframe,borderwidth = 0)
         mylabel1 = Label(wrapper3,text=dfdf['judul'].iloc[i],font = myFont)
         mylabel1.grid(column=0,row=1)
-        mylabel2 = Label(wrapper3,text="%.250s" %dfdf['sinopsis'].iloc[i]+str(" ..."),font = myFont.configure(size=14),wraplength=200,justify="left")
+        mylabel2 = Label(wrapper3,text="%.250s" %dfdf['sinopsis'].iloc[i]+str(" ..."),
+                        font = myFont.configure(size=14),wraplength=200,justify="left")
         mylabel2.grid(column=0,row=2)
         btn_order = Button(wrapper3,
                           command=lambda i=i: pilihfilem(str(dfdf['judul'].iloc[i])),
@@ -367,6 +368,9 @@ def moviedetailscreen():
 
 
 pilihfilmscreen()
-root.geometry("500x700")
+root.title('ringkasan pembayaran')
+root.config(background="white")
+root.geometry('1000x600')
+root.resizable(False,False)
 
 root.mainloop()

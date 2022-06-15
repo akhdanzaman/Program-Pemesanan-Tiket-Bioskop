@@ -9,10 +9,10 @@ root.resizable(False,False)
 heading=Label(root,text='Konfirmasi Pembayaran', font=('arial', 15, 'bold'), background="white")
 heading.place(x=50,y=50)
 
-kotak=PhotoImage(file='C:\\Bioskop\\kotak.png')
+kotak=PhotoImage(file='kotak.png')
 Label(root,image=kotak,background="white").place(x=570,y=50)
 
-poster=PhotoImage(file='C:\\Bioskop\\wi.png')
+poster=PhotoImage(file='wi.png')
 Label(root,image=poster).place(x=50,y=100)
 
 jdwl=Label(root,text='Detail Jadwal', font=('arial', 11, 'bold'), background="white")
@@ -72,7 +72,7 @@ bates.place(x=600,y=310)
 sk=Label(root,text='* Pembelian tidak bisa dibatalkan', font=('arial', 7), background="white", fg='#f00')
 sk.place(x=600,y=340)
 
-Beli_button=PhotoImage(file="C:\\Bioskop\\Button.png")
+Beli_button=PhotoImage(file="Button.png")
 beli=Button(image=Beli_button, borderwidth=0, cursor="hand2", bd=0, font=("arial, 16"), background="white")
 beli.place(x=680,y=400)
 
