@@ -4,12 +4,14 @@ import pandas as pd
 
 
 win=Tk()
+win.title("Cinemakmur Premiere")
+ 
 
 
 def ds_pf():
     global s_pf
     s_pf = Toplevel()
-    s_pf.title('ringkasan pembayaran')
+    s_pf.title('Pemilihan Film')
     s_pf.config(background="white")
     s_pf.geometry('1000x600')
     s_pf.resizable(False,False)    
@@ -61,6 +63,11 @@ def ds_pf():
 
 
     def button_poster():
+        Button(s_pj,image=tglback_btn, borderwidth=0, 
+        cursor="hand2", bd=0, font=("arial, 16"), 
+        background="white",activebackground='#ffffff',
+        command=lambda:tanggal_back()
+        ).place(x=570,y=138,)  
         for i in range (len(daftarposter)-2):
             image = Image.open((dfdf['poster'].iloc[i]))
             resize_image = image.resize((91,127))
@@ -106,10 +113,14 @@ def ds_pj():
     global s_pj
     s_pf.destroy()
     s_pj = Toplevel()
-    s_pj.title('ringkasan pembayaran')
+    s_pj.title('Pemilihan Jadwal')
     s_pj.config(background="white")
     s_pj.geometry('1000x600')
     s_pj.resizable(False,False)
+
+
+
+
 
     heading=Label(s_pj,text='Pilih Kursi Anda', font=('arial', 15, 'bold'), background="white")
     heading.place(x=50,y=50)
@@ -128,26 +139,26 @@ def ds_pj():
     genre=Label(s_pj,text='Genre', font=('arial', 8), background="white")
     genre.place(x=250,y=100)
 
-    genre2=Label(s_pj,text='Genrenya', font=('arial', 8, 'bold'), background="white")
-    genre2.place(x=250,y=125)
+    genre2=Label(s_pj,text=(dfdf['genre'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    genre2.place(x=250,y=115)
 
     durasi=Label(s_pj,text='Durasi', font=('arial', 8), background="white")
     durasi.place(x=250,y=150)
 
-    durasi2=Label(s_pj,text='Durasinya', font=('arial', 8, 'bold'), background="white")
-    durasi2.place(x=250,y=175)
+    durasi2=Label(s_pj,text=(dfdf['durasi'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    durasi2.place(x=250,y=165)
 
     sut=Label(s_pj,text='Sutradara', font=('arial', 8), background="white")
     sut.place(x=250,y=200)
 
-    sut2=Label(s_pj,text='Sutradaranya', font=('arial', 8, 'bold'), background="white")
-    sut2.place(x=250,y=225)
+    sut2=Label(s_pj,text=(dfdf['sutradara'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    sut2.place(x=250,y=215)
 
     rat=Label(s_pj,text='Rating', font=('arial', 8), background="white")
     rat.place(x=250,y=250)
 
-    rat2=Label(s_pj,text='Ratingnya', font=('arial', 8, 'bold'), background="white")
-    rat2.place(x=250,y=275)
+    rat2=Label(s_pj,text=(dfdf['rating'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    rat2.place(x=250,y=265)
 
     judul=Label(s_pj,text=dfdf['judul'].iloc[pilihanfilm], font=('arial', 16, 'bold'), background="white")
     judul.place(x=50,y=367)
@@ -289,7 +300,7 @@ def ds_pk():
     global root
     s_pj.destroy()
     root = Toplevel()
-    root.title('ringkasan pembayaran')
+    root.title('Pemilihan Kursi')
     root.config(background="white")
     root.geometry('1000x600')
     root.resizable(False,False)
@@ -300,41 +311,46 @@ def ds_pk():
     kotak=PhotoImage(file='kotak3.png')
     Label(root,image=kotak,background="white").place(x=530,y=50)
 
-    poster=PhotoImage(file='wi.png')
-    Label(root,image=poster).place(x=50,y=100)
+    image2 = Image.open((dfdf['poster'].iloc[pilihanfilm]))
+    resize_image2 = image2.resize((182,254)) 
+    img2 = ImageTk.PhotoImage(resize_image2)
+    poster=Label(root,image=img2)
+    poster.image=(dfdf['poster'].iloc[pilihanfilm])
+    poster.place(x=50,y=100)
 
     genre=Label(root,text='Genre', font=('arial', 8), background="white")
     genre.place(x=250,y=100)
 
-    genre2=Label(root,text='Genrenya', font=('arial', 8, 'bold'), background="white")
-    genre2.place(x=250,y=125)
+    genre2=Label(root,text=(dfdf['genre'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    genre2.place(x=250,y=115)
 
     durasi=Label(root,text='Durasi', font=('arial', 8), background="white")
     durasi.place(x=250,y=150)
 
-    durasi2=Label(root,text='Durasinya', font=('arial', 8, 'bold'), background="white")
-    durasi2.place(x=250,y=175)
+    durasi2=Label(root,text=(dfdf['durasi'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    durasi2.place(x=250,y=165)
 
     sut=Label(root,text='Sutradara', font=('arial', 8), background="white")
     sut.place(x=250,y=200)
 
-    sut2=Label(root,text='Sutradaranya', font=('arial', 8, 'bold'), background="white")
-    sut2.place(x=250,y=225)
+    sut2=Label(root,text=(dfdf['sutradara'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    sut2.place(x=250,y=215)
 
     rat=Label(root,text='Rating', font=('arial', 8), background="white")
     rat.place(x=250,y=250)
 
-    rat2=Label(root,text='Ratingnya', font=('arial', 8, 'bold'), background="white")
-    rat2.place(x=250,y=275)
+    rat2=Label(root,text=(dfdf['rating'].iloc[pilihanfilm]), font=('arial', 8, 'bold'), background="white")
+    rat2.place(x=250,y=265)
 
-    judul=Label(root,text='JUDULNYA', font=('arial', 10, 'bold'), background="white")
-    judul.place(x=50,y=317)
+    judul=Label(root,text=dfdf['judul'].iloc[pilihanfilm], font=('arial', 16, 'bold'), background="white")
+    judul.place(x=50,y=367)
 
     sinop=Label(root,text='Sinopsis', font=('arial', 8), background="white")
-    sinop.place(x=50,y=350)
+    sinop.place(x=50,y=405)
 
-    sinop2=Label(root,text='Sinopsisnya', font=('arial', 8, 'bold'), background="white")
-    sinop2.place(x=50,y=375)
+    sinop2=Label(root,font=('yu gothic ui', 9, 'bold'),text=dfdf['sinopsis'].iloc[pilihanfilm],
+                       wraplength=400,justify="left",bg='white')
+    sinop2.place(x=50,y=425)
 
     Beli_button=PhotoImage(file="Button2.png")
     beli=Button(root,image=Beli_button, borderwidth=0, 
@@ -409,7 +425,7 @@ def ds_pk():
                         cursor='hand2', 
                         activebackground='#3047ff', 
                         fg='white',
-                        command =pickseat)
+                        command =lambda:pickseat())
         login.place(x=20, y=10)
         login.grid(column=1,row=1)
     def store_picked_seatno(seat_code):
@@ -469,42 +485,54 @@ def ds_rp():
     kotak2=PhotoImage(file='kotak.png')
     Label(s_rp,image=kotak2,background="white").place(x=570,y=50)
 
-    poster2=PhotoImage(file='wi.png')
-    Label(s_rp,image=poster2).place(x=50,y=100)
+
+    image2 = Image.open((dfdf['poster'].iloc[pilihanfilm]))
+    resize_image2 = image2.resize((182,254)) 
+    img2 = ImageTk.PhotoImage(resize_image2)
+    poster=Label(s_rp,image=img2)
+    poster.image=(dfdf['poster'].iloc[pilihanfilm])
+    poster.place(x=50,y=100)
+
 
     jdwl2=Label(s_rp,text='Detail Jadwal', font=('arial', 11, 'bold'), background="white")
-    jdwl2.place(x=250,y=120)
+    jdwl2.place(x=250,y=100)
 
     jdl2=Label(s_rp,text='Judul Film', font=('arial', 10), background="white")
-    jdl2.place(x=250,y=170)
+    jdl2.place(x=250,y=140)
 
 
-    film2=Label(s_rp,text='SPIDERMAN NO WAY HOME', font=('arial', 10, 'bold'), background="white")
-    film2.place(x=250,y=200)
+    film2=Label(s_rp,text=dfdf['judul'].iloc[pilihanfilm], font=('arial', 10, 'bold'), background="white")
+    film2.place(x=250,y=160)
 
     tgl2=Label(s_rp,text='Tanggal', font=('arial', 10), background="white")
-    tgl2.place(x=250,y=230)
+    tgl2.place(x=250,y=200)
 
     tbt2=Label(s_rp,text="%s Juli 2022"%picktanggal[0], font=('arial', 10, 'bold'), background="white")
-    tbt2.place(x=250,y=260)
+    tbt2.place(x=250,y=220)
+
+    kodebayar=Label(s_rp,text='Kode Bayar', font=('arial', 10), background="white")
+    kodebayar.place(x=250,y=260)
+
+    kodebayar2=Label(s_rp,text="%s Juli 2022"%picktanggal[0], font=('arial', 10, 'bold'), background="white")
+    kodebayar2.place(x=250,y=280)
 
     kls2=Label(s_rp,text='Studio', font=('arial', 10), background="white")
-    kls2.place(x=50,y=340)
+    kls2.place(x=50,y=370)
 
     film2=Label(s_rp,text='Teater 1', font=('arial', 10, 'bold'), background="white")
-    film2.place(x=50,y=370)
+    film2.place(x=50,y=390)
 
     tic2=Label(s_rp,text='Tiket', font=('arial', 10), background="white")
-    tic2.place(x=50,y=410)
+    tic2.place(x=50,y=430)
 
     seat2=Label(s_rp,text=pickedseat_code, font=('arial', 10, 'bold'), background="white")
-    seat2.place(x=50,y=440)
+    seat2.place(x=50,y=450)
 
     jam2=Label(s_rp,text='Jam', font=('arial', 10), background="white")
-    jam2.place(x=200,y=340)
+    jam2.place(x=200,y=370)
 
     pkl2=Label(s_rp,text="%d:00"%pickjam[0], font=('arial', 10, 'bold'), background="white")
-    pkl2.place(x=200,y=370) 
+    pkl2.place(x=200,y=390) 
 
     ro2=Label(s_rp,text='Ringkasan Order', font=('arial', 11, 'bold'), background="white")
     ro2.place(x=600,y=120)
