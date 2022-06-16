@@ -22,7 +22,7 @@ locfilm = dfdf['judul'].tolist()
 
 jadwaljam = ["10","13","16"]
 
-dstudio = [1,2,3]
+dstudio = [1]
 
 z=0
 for studio in range (len(dstudio)):
