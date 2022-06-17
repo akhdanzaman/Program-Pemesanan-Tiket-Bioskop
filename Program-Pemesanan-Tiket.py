@@ -390,9 +390,13 @@ def ds_pf():
         poster_button.image = img2
         poster_button.place(x=220,y=130)
         global judul,sinopsis
+        if len(dfdf['sinopsis'].iloc[x])>250:
+            titiktitik = "..."
+        else:
+            titiktitik=""
         judul=Label(s_pf,text=dfdf['judul'].iloc[x], font=('yu gothic ui', 16, 'bold'), background="white")
         judul.place(x=450,y=130)
-        sinopsis=Label(s_pf, font=('yu gothic ui', 9, 'bold'),text="%.250s" %dfdf['sinopsis'].iloc[x],
+        sinopsis=Label(s_pf, font=('yu gothic ui', 9, 'bold'),text="%.250s %s" %(dfdf['sinopsis'].iloc[x],titiktitik),
                        wraplength=200,justify="left",bg='white')
         sinopsis.place(x=450,y=165)
         global pilihanfilm
@@ -504,7 +508,7 @@ def ds_pj():
 
     sinop=Label(s_pj,text='Sinopsis', font=('arial', 8), background="white")
     sinop.place(x=50,y=405)
-
+    
     sinop2=Label(s_pj,font=('yu gothic ui', 9, 'bold'),text=dfdf['sinopsis'].iloc[pilihanfilm],
                        wraplength=400,justify="left",bg='white')
     sinop2.place(x=50,y=425)
