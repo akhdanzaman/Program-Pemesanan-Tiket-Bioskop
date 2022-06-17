@@ -536,8 +536,10 @@ def ds_pj():
     locfilm = (dftt["tanggal"])
     daftartanggal = locfilm.tolist()
     daftartanggal_clear=(list(dict.fromkeys(daftartanggal)))
-    if datetime.datetime.now().day>daftartanggal_clear[0]:
+    if datetime.datetime.now().day>daftartanggal_clear[0] and datetime.datetime.now().hour<18:
         del daftartanggal_clear[0:daftartanggal_clear.index(datetime.datetime.now().day)]
+    elif datetime.datetime.now().hour>=18:
+        del daftartanggal_clear[0:(daftartanggal_clear.index(datetime.datetime.now().day)+1)]
     print(daftartanggal_clear)
     jadwal_btnp=PhotoImage(file="images\\Buttontglpasif.png")
     jadwal_btna=PhotoImage(file="images\\Buttontglaktif.png")
