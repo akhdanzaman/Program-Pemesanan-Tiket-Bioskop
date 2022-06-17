@@ -74,7 +74,6 @@ def rekapbeli():
                 'waktupembelian' : [waktupembelian],
                 'user' : [user],
                 'namalengkap' : [namalengkap],
-                'nomor' : [nomor],
                 'judul' : [dfdf['judul'].iloc[pilihanfilm]],
                 'waktu' : [pickjam[0]],
                 'tanggal' : [picktanggal[0]],
@@ -150,7 +149,6 @@ def registerscreen():
     nama_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
     nama_line.place(x=550, y=410)
 
-    # No hp
 
 
 
