@@ -913,7 +913,7 @@ def ds_rp():
         h2=Label(s_rp,text="Rp4.000", font=('arial', 9), background="white")
         h2.place(x=800,y=220)
 
-        bates2=Label(s_rp,text='__________________________________________________________', background="white")
+        bates2=Label(s_rp,text='____________________', background="white")
         bates2.place(x=600,y=250)
 
         tb2=Label(s_rp,text='Total Bayar', font=('arial', 9, 'bold'), background="white")
@@ -922,7 +922,7 @@ def ds_rp():
         tb2=Label(s_rp,text=('Rp%d'%((len(pickedseat)*45000)+4000)), font=('arial', 9, 'bold'), background="white")
         tb2.place(x=800,y=280)
 
-        bates2=Label(s_rp,text='__________________________________________________________', background="white")
+        bates2=Label(s_rp,text='____________________', background="white")
         bates2.place(x=600,y=310)
 
         sk2=Label(s_rp,text='* Pembelian tidak bisa dibatalkan', font=('arial', 7), background="white", fg='#f00')
@@ -966,14 +966,18 @@ def ds_kb():
         class PDF(FPDF):
             def header(self):
                 # Logo
+<<<<<<< HEAD
                 self.image('images\\background2.jpeg', 60, 40, 80)
+=======
+                self.image('background2.jpeg', 60, 35, 80)
+>>>>>>> fbf3094ee59e3b16645b64d2f9fd8f98f848e126
                 self.image(dfdf['poster'].iloc[pilihanfilm], 135, 28, 45)
                 #font
                 self.set_font('helvetica', 'B', 20)
                 # Arial bold 15
                 self.set_font('helvetica', 'B', 20)
                 # Title
-                self.cell(0, 0, '_________________________________________', border=False, ln=1, align ='C')
+                self.cell(0, 0, '_____________________________', border=False, ln=1, align ='C')
                 self.cell(0, 0, 'THE CINEMAKMUR PREMIERE', border=False, ln=1, align ='C')
                 # Line break
                 self.ln(0)
@@ -992,7 +996,7 @@ def ds_kb():
         pdf.cell(5, 7, 'Price   : %s' %('Rp%d'%((len(pickedseat_code)*45000)+4000)), 0, 1)
         pdf.cell(5, 7, ' ', 0, 1)
         pdf.set_font('Arial', 'b', 12)
-        pdf.cell(67, 10, 'KODE BOOKING : %s'%id, 1, 1, 'C')
+        pdf.cell(70, 10, 'KODE BOOKING : %s'%id, 1, 1, 'C')
         pdf.output('Tiket\\Tiket %s.pdf'%id, 'F')
         
         webbrowser.open(r'Tiket\\Tiket %s.pdf'%id)
@@ -1000,9 +1004,15 @@ def ds_kb():
     kotak=PhotoImage(file='images\\screen book.png')
     Label(s_kb,image=kotak,background="white").place(x=0,y=0)
 
+<<<<<<< HEAD
     exit_button2=PhotoImage(file="images\\exit button.png")
     print_button2=PhotoImage(file="images\\print button 2.png")
     hs_button2=PhotoImage(file="images\\home button.png")      
+=======
+    exit_button2=PhotoImage(file="exit button.png")
+    print_button2=PhotoImage(file="print button 2.png")
+    hs_button2=PhotoImage(file="home button.png")      
+>>>>>>> fbf3094ee59e3b16645b64d2f9fd8f98f848e126
     exittt=Button(s_kb,image=exit_button2, borderwidth=0, cursor="hand2", 
     bd=0, font=("arial, 16"), background="white",command=exit)
     exittt.place(x=330,y=430)
