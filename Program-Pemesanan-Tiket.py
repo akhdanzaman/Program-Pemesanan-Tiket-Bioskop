@@ -552,7 +552,7 @@ def ds_pj():
 
     def tanggal_back():
         global displaytanggal
-        if displaytanggal[0] != daftartanggal_clear[1]:
+        if displaytanggal[0] != daftartanggal_clear[0]:
             print(displaytanggal)
             print(daftartanggal_clear)
             terakhir = displaytanggal[2]
@@ -626,6 +626,8 @@ def ds_pj():
             if pickjam.count(displayjam[i])>0:
                 jam_button.configure(image=jam_btna,fg = "#ffffff",
                                     command=lambda i=i:fdeljam(displayjam[i]))
+            if daftartanggal_clear.index(datetime.datetime.now().day)>displayjam[i]:
+                jam_button.configure(state=DISABLED)
     def fpickjam(jam):
         if len(pickjam)>0:
             del pickjam[0]
