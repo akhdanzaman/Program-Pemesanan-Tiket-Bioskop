@@ -5,6 +5,7 @@ from fpdf import FPDF
 import random, string
 import datetime
 import tkinter.messagebox as messagebox
+import webbrowser
 
 win=Tk()
 win.title("Cinemakmur Premiere")
@@ -425,7 +426,7 @@ def ds_pf():
         global judul,sinopsis
         judul=Label(s_pf,text=dfdf['judul'].iloc[x], font=('yu gothic ui', 16, 'bold'), background="white")
         judul.place(x=450,y=130)
-        sinopsis=Label(s_pf, font=('yu gothic ui', 9, 'bold'),text="%.250s" %dfdf['sinopsis'].iloc[x]+str(" ..."),
+        sinopsis=Label(s_pf, font=('yu gothic ui', 9, 'bold'),text="%.250s" %dfdf['sinopsis'].iloc[x],
                        wraplength=200,justify="left",bg='white')
         sinopsis.place(x=450,y=165)
         global pilihanfilm
@@ -468,7 +469,7 @@ def ds_pf():
     pickposter=[1]
     button_poster()
     judul.configure(text=dfdf['judul'].iloc[1])
-    sinopsis.configure(text="%.250s" %dfdf['sinopsis'].iloc[1]+str(" ..."))
+    sinopsis.configure(text="%.250s" %dfdf['sinopsis'].iloc[1])
 
 
     s_pf.mainloop()
@@ -546,7 +547,7 @@ def ds_pj():
     beli2=Button(s_pj,image=Beli_button, borderwidth=0, 
                 cursor="hand2", bd=0, font=("arial, 16"), 
                 background="white",
-                command=lambda:[ds_pk(),error("a")])
+                command=lambda:[ds_pk()])
     beli2.place(x=670,y=440)
 
 
@@ -662,25 +663,7 @@ def ds_pj():
     pickjam=[]
     button_jam()
 
-    error_box=PhotoImage(file='MSG BOX.png')
-    error_pop=Label(s_pj,image=error_box)
-    error_msg=Label(s_pj,font=('yu gothic ui', 16),text="Silahkan pilih jadwal anda!",
-                       wraplength = 300, justify="center",bg='white')
-    error_ok_image=PhotoImage(file="okbut.png")
-    error_ok_button=Button(s_pj,image=error_ok_image, borderwidth=0, 
-                    cursor="hand2", bd=0, font=("arial, 16"), 
-                    background="white",command=lambda:error("b"))
-        
-    
-    def error(x):
-        if len(pickjam)<1 or len(picktanggal)<1:
-            error_pop.place(x=0,y=0)
-            error_msg.place(x=370,y=260)
-            error_ok_button.place(x=415,y=320)
-        if x=="b":
-            error_pop.place_forget()
-            error_msg.place_forget()
-            error_ok_button.place_forget()
+
     s_pj.mainloop()
 
 def balikpj():
@@ -855,6 +838,8 @@ def ds_pk():
         cariindekskursi()
         availableseat()
         s_pk.mainloop()
+    else:
+        messagebox.showinfo( "Ingpo", "Mohon pilih jadwal anda",parent=s_pj,)
 
 def ds_rp():
     if len(pickedseat)!= 0:
@@ -972,7 +957,9 @@ def ds_rp():
 
         s_rp.mainloop()
     else:
-        messagebox.showinfo("Ingpo", "Mohon pilih kursi anda")
+
+        messagebox.showinfo( "Ingpo", "Mohon pilih kursi anda",parent=s_pk,)
+
 
 def balikpk():
     s_rp.destroy()
@@ -1021,7 +1008,9 @@ def ds_kb():
         pdf.cell(5, 7, ' ', 0, 1)
         pdf.set_font('Arial', 'b', 12)
         pdf.cell(67, 10, 'KODE BOOKING : %s'%id, 1, 1, 'C')
-        pdf.output('tiket_bioskop.pdf', 'F')
+        pdf.output('Tiket\\Tiket %s.pdf'%id, 'F')
+        
+        webbrowser.open(r'Tiket\\Tiket %s.pdf'%id)
 
     kotak=PhotoImage(file='screen book.png')
     Label(s_kb,image=kotak,background="white").place(x=0,y=0)
