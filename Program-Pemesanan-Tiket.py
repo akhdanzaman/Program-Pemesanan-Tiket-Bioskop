@@ -27,7 +27,6 @@ def login1():
     if matching_creds:
         print('success')
         ds_pf()
-        win.destroy()
     else:
         print('\nYour account is not registered yet!')
         print('please contact admin')
@@ -966,11 +965,7 @@ def ds_kb():
         class PDF(FPDF):
             def header(self):
                 # Logo
-<<<<<<< HEAD
                 self.image('images\\background2.jpeg', 60, 40, 80)
-=======
-                self.image('background2.jpeg', 60, 35, 80)
->>>>>>> fbf3094ee59e3b16645b64d2f9fd8f98f848e126
                 self.image(dfdf['poster'].iloc[pilihanfilm], 135, 28, 45)
                 #font
                 self.set_font('helvetica', 'B', 20)
@@ -1004,15 +999,9 @@ def ds_kb():
     kotak=PhotoImage(file='images\\screen book.png')
     Label(s_kb,image=kotak,background="white").place(x=0,y=0)
 
-<<<<<<< HEAD
     exit_button2=PhotoImage(file="images\\exit button.png")
     print_button2=PhotoImage(file="images\\print button 2.png")
     hs_button2=PhotoImage(file="images\\home button.png")      
-=======
-    exit_button2=PhotoImage(file="exit button.png")
-    print_button2=PhotoImage(file="print button 2.png")
-    hs_button2=PhotoImage(file="home button.png")      
->>>>>>> fbf3094ee59e3b16645b64d2f9fd8f98f848e126
     exittt=Button(s_kb,image=exit_button2, borderwidth=0, cursor="hand2", 
     bd=0, font=("arial, 16"), background="white",command=exit)
     exittt.place(x=330,y=430)
