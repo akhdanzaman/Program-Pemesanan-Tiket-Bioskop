@@ -12,7 +12,7 @@ win.title("Cinemakmur Premiere")
 
  
 def login1():
-    userData = pd.read_csv('userdatabase.csv')
+    userData = pd.read_csv('databases\\userdatabase.csv')
     df = pd.DataFrame(userData)
     
 
@@ -33,7 +33,7 @@ def login1():
         print('please contact admin')
         messagebox.showinfo("Ingpo", "Username atau password anda salah")
 def register1():
-    userData = pd.read_csv('userdatabase.csv')
+    userData = pd.read_csv('databases\\userdatabase.csv')
     df = pd.DataFrame(userData)
 
     global user
@@ -50,7 +50,7 @@ def register1():
                    'password' : [pasw],
                    'namalengkap' : [namalengkap]}
         registeruser = pd.DataFrame(newuser)
-        registeruser.to_csv('userdatabase.csv', mode='a', index=False, header=False)
+        registeruser.to_csv('databases\\userdatabase.csv', mode='a', index=False, header=False)
         messagebox.showinfo("Ingpo", "Register berhasil")
         s_rs.destroy()
     else:
@@ -58,25 +58,12 @@ def register1():
         messagebox.showinfo("Ingpo", "Mohon isi data diri dengan benar")
         registerscreen()
 
-def id_generator(size=15, chars=string.ascii_uppercase + string.digits):
-  return ''.join(random.choice(chars) for _ in range(size))
-def pembayaran():
-  datapembelian = pd.read_csv('datapembelian.csv')
-  dfdp = pd.DataFrame(datapembelian)
-  while True:
-    id_generator()
-    if (len(dfdp.loc[dfdp['kodebayar'] == id_generator])) < 1:
-        global id
-        id = id_generator()
-        print(id)
-        break
-        
-  return id
+
 def rekapbeli():
     global nomor
-    datapembelian = pd.read_csv('datapembelian.csv')
+    datapembelian = pd.read_csv('databases\\datapembelian.csv')
     dfdt = pd.DataFrame(datapembelian)
-    ambildatauser = pd.read_csv('userdatabase.csv',index_col = 'username')
+    ambildatauser = pd.read_csv('databases\\userdatabase.csv',index_col = 'username')
     dfadu = pd.DataFrame(ambildatauser)
     nomor = dfadu.loc[user, 'nomor']
     namalengkap = dfadu.loc[user,'namalengkap']
@@ -89,13 +76,13 @@ def rekapbeli():
                 'user' : [user],
                 'namalengkap' : [namalengkap],
                 'nomor' : [nomor],
-                'judul' : [dfdf['judul'].iloc[x]],
+                'judul' : [dfdf['judul'].iloc[pilihanfilm]],
                 'waktu' : [pickjam[0]],
                 'tanggal' : [picktanggal[0]],
                 'kodebayar' : [id],
                 }
     inputdatapembelian = pd.DataFrame(databelibaru)
-    inputdatapembelian.to_csv('datapembelian.csv', mode='a', index=False, header=False)
+    inputdatapembelian.to_csv('databases\\datapembelian.csv', mode='a', index=False, header=False)
 
     print('')
 
@@ -372,7 +359,7 @@ loginbaru()
 def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
   return ''.join(random.choice(chars) for _ in range(size))
 def pembayaran():
-  datapembelian = pd.read_csv('datapembelian.csv')
+  datapembelian = pd.read_csv('databases\\datapembelian.csv')
   dfdp = pd.DataFrame(datapembelian)
   while True:
     id_generator()
@@ -389,11 +376,11 @@ def ds_pf():
     s_pf.config(background="white")
     s_pf.geometry('1000x600')
     s_pf.resizable(False,False)    
-    kotak=PhotoImage(file='bg1.png')
+    kotak=PhotoImage(file='images\\bg1.png')
     Label(s_pf,image=kotak,background="white").place(x=0,y=0)        
 
     global dfdf
-    film = pd.read_csv('film.csv')
+    film = pd.read_csv('databases\\film.csv')
     dfdf = pd.DataFrame(film)
 
     locjudul = (dfdf["judul"])
@@ -402,7 +389,7 @@ def ds_pf():
     daftarposter = locposter.tolist()
     print(daftarposter)
 
-    Belitiket_btnimg=PhotoImage(file="Buttonbelitiket.png")
+    Belitiket_btnimg=PhotoImage(file="images\\Buttonbelitiket.png")
     def button_beli(x):
         belitiket_btn=Button(s_pf,image=Belitiket_btnimg, borderwidth=0,fg = "#ffffff", 
                     cursor="hand2", bd=0, font=("yu gothic ui", 8, "bold"), 
@@ -487,7 +474,7 @@ def ds_pj():
     s_pj.geometry('1000x600')
     s_pj.resizable(False,False)
 
-    back_btn=PhotoImage(file="Buttonback.png")
+    back_btn=PhotoImage(file="images\\Buttonback.png")
     Button(s_pj,image=back_btn, borderwidth=0, 
             cursor="hand2", bd=0, font=("arial, 16"), 
             background="white",activebackground='#ffffff',
@@ -498,7 +485,7 @@ def ds_pj():
     heading=Label(s_pj,text='Pilih Kursi Anda', font=('arial', 15, 'bold'), background="white")
     heading.place(x=50,y=50)
 
-    kotak=PhotoImage(file='kotak4.png')
+    kotak=PhotoImage(file='images\\kotak4.png')
     Label(s_pj,image=kotak,background="white").place(x=530,y=50)
 
 
@@ -543,7 +530,7 @@ def ds_pj():
                        wraplength=400,justify="left",bg='white')
     sinop2.place(x=50,y=425)
 
-    Beli_button=PhotoImage(file="Button3.png")
+    Beli_button=PhotoImage(file="images\\Button3.png")
     beli2=Button(s_pj,image=Beli_button, borderwidth=0, 
                 cursor="hand2", bd=0, font=("arial, 16"), 
                 background="white",
@@ -551,8 +538,8 @@ def ds_pj():
     beli2.place(x=670,y=440)
 
 
-    tglback_btn=PhotoImage(file="Buttonback.png")
-    tglforward_btn=PhotoImage(file="Buttonforward.png")
+    tglback_btn=PhotoImage(file="images\\Buttonback.png")
+    tglforward_btn=PhotoImage(file="images\\Buttonforward.png")
     Button(s_pj,image=tglback_btn, borderwidth=0, 
             cursor="hand2", bd=0, font=("arial, 16"), 
             background="white",activebackground='#ffffff',
@@ -564,14 +551,14 @@ def ds_pj():
             command=lambda:tanggal_forward()
             ).place(x=890,y=138,)   
 
-    tanggal_tersedia = pd.read_csv('datakursi2.csv')
+    tanggal_tersedia = pd.read_csv('databases\\datakursi2.csv')
     dftt = pd.DataFrame(tanggal_tersedia)
 
     locfilm = (dftt["tanggal"])
     daftartanggal = locfilm.tolist()
     daftartanggal_clear=(list(dict.fromkeys(daftartanggal)))
-    jadwal_btnp=PhotoImage(file="Buttontglpasif.png")
-    jadwal_btna=PhotoImage(file="Buttontglaktif.png")
+    jadwal_btnp=PhotoImage(file="images\\Buttontglpasif.png")
+    jadwal_btna=PhotoImage(file="images\\Buttontglaktif.png")
     global displaytanggal
     displaytanggal=[daftartanggal_clear[0],daftartanggal_clear[1],daftartanggal_clear[2]]
 
@@ -628,14 +615,14 @@ def ds_pj():
     picktanggal=[]
     button_tanggal()
 
-    jam_tersedia = pd.read_csv('datakursi2.csv')
+    jam_tersedia = pd.read_csv('databases\\datakursi2.csv')
     dfjt = pd.DataFrame(jam_tersedia)
 
     locfilm = (dfjt["jam"])
     daftarjam = locfilm.tolist()
     daftarjam_clear=(list(dict.fromkeys(daftarjam)))
-    jam_btnp=PhotoImage(file="Buttonjampasif.png")
-    jam_btna=PhotoImage(file="Buttonjamaktif.png")
+    jam_btnp=PhotoImage(file="images\\Buttonjampasif.png")
+    jam_btna=PhotoImage(file="images\\Buttonjamaktif.png")
     global displayjam
     displayjam=[daftarjam_clear[0],daftarjam_clear[1],daftarjam_clear[2]]
 
@@ -683,7 +670,7 @@ def ds_pk():
         s_pk.geometry('1000x600')
         s_pk.resizable(False,False)
 
-        back_btn=PhotoImage(file="Buttonback.png")
+        back_btn=PhotoImage(file="images\\Buttonback.png")
         Button(s_pk,image=back_btn, borderwidth=0, 
                 cursor="hand2", bd=0, font=("arial, 16"), 
                 background="white",activebackground='#ffffff',
@@ -693,7 +680,7 @@ def ds_pk():
         heading=Label(s_pk,text='Pilih Kursi Anda', font=('arial', 15, 'bold'), background="white")
         heading.place(x=50,y=50)
 
-        kotak=PhotoImage(file='kotak3.png')
+        kotak=PhotoImage(file='images\\kotak3.png')
         Label(s_pk,image=kotak,background="white").place(x=530,y=50)
 
         image2 = Image.open((dfdf['poster'].iloc[pilihanfilm]))
@@ -737,7 +724,7 @@ def ds_pk():
                             wraplength=400,justify="left",bg='white')
         sinop2.place(x=50,y=425)
 
-        Beli_button=PhotoImage(file="Button2.png")
+        Beli_button=PhotoImage(file="images\\Button2.png")
         beli=Button(s_pk,image=Beli_button, borderwidth=0, 
                     cursor="hand2", bd=0, font=("arial, 16"), 
                     command =lambda:[ds_rp()],background="white")
@@ -745,7 +732,7 @@ def ds_pk():
 
         def cariindekskursi():
             global indekskursi
-            datakursi2 = pd.read_csv('datakursi2.csv')
+            datakursi2 = pd.read_csv('databases\\datakursi2.csv')
             carkur3 = pd.DataFrame(datakursi2)
             carkur2 = carkur3[carkur3['judul']==dfdf['judul'].iloc[pilihanfilm]]
             carkur = carkur2[carkur2['tanggal']==picktanggal[0]]
@@ -755,7 +742,7 @@ def ds_pk():
 
             bariskursi=['A','B','C',"D","E","F","G"]
             seat_code=int(seatno-6)
-            lgn_button = Image.open('Button.png')
+            lgn_button = Image.open('images\\Button.png')
             photo = ImageTk.PhotoImage(lgn_button)
 
             lgn_button_label = Label(s_pk, bg='white')
@@ -780,7 +767,7 @@ def ds_pk():
                 print("ADALUR")
 
         def availableseat():
-            kursifilm = pd.read_csv('datakursi2.csv')
+            kursifilm = pd.read_csv('databases\\datakursi2.csv')
             dfkf = pd.DataFrame(kursifilm)
             locfilm = dfkf.loc[indekskursi]
             daftarkursi = locfilm.tolist()
@@ -839,7 +826,7 @@ def ds_pk():
         availableseat()
         s_pk.mainloop()
     else:
-        messagebox.showinfo( "Ingpo", "Mohon pilih jadwal anda",parent=s_pj,)
+        messagebox.showinfo( "Ingpo", "Mohon pilih jadwal anda",parent=s_pj)
 
 def ds_rp():
     if len(pickedseat)!= 0:
@@ -854,7 +841,7 @@ def ds_rp():
         heading2=Label(s_rp,text='Konfirmasi Pembayaran', font=('arial', 15, 'bold'), background="white")
         heading2.place(x=50,y=50)
 
-        back_btn=PhotoImage(file="Buttonback.png")
+        back_btn=PhotoImage(file="images\\Buttonback.png")
         Button(s_rp,image=back_btn, borderwidth=0, 
                 cursor="hand2", bd=0, font=("arial, 16"), 
                 background="white",activebackground='#ffffff',
@@ -862,7 +849,7 @@ def ds_rp():
                 ).place(x=10,y=10,)  
 
 
-        kotak2=PhotoImage(file='kotak.png')
+        kotak2=PhotoImage(file='images\\kotak.png')
         Label(s_rp,image=kotak2,background="white").place(x=570,y=50)
 
 
@@ -944,14 +931,14 @@ def ds_rp():
         def pickseat():
             for i in range (len(pickedseat)):
                 pickedseat.append("0")
-                datakursi = pd.read_csv('datakursi2.csv', index_col='kode')
+                datakursi = pd.read_csv('databases\\datakursi2.csv', index_col='kode')
                 dfdk = pd.DataFrame(datakursi)
                 kursipilihan = str(pickedseat[i])
                 dfdk.loc[indekskursi, kursipilihan] = 0
-                dfdk.to_csv("datakursi2.csv")
+                dfdk.to_csv("databases\\datakursi2.csv")
                 print(pickedseat[i])
             pickedseat.clear()
-        Beli_button2=PhotoImage(file="Button.png")
+        Beli_button2=PhotoImage(file="images\\Button.png")
         beli2=Button(s_rp,image=Beli_button2, borderwidth=0, cursor="hand2", bd=0, font=("arial, 16"), background="white",command=lambda:[pickseat(),ds_kb()])
         beli2.place(x=680,y=400)
 
@@ -975,13 +962,11 @@ def ds_kb():
     s_kb.geometry('1000x600')
     s_kb.resizable(False,False)
 
-    def exitt():
-        win.destroy()
     def printt():
         class PDF(FPDF):
             def header(self):
                 # Logo
-                self.image('background2.jpeg', 60, 40, 80)
+                self.image('images\\background2.jpeg', 60, 40, 80)
                 self.image(dfdf['poster'].iloc[pilihanfilm], 135, 28, 45)
                 #font
                 self.set_font('helvetica', 'B', 20)
@@ -1012,17 +997,21 @@ def ds_kb():
         
         webbrowser.open(r'Tiket\\Tiket %s.pdf'%id)
 
-    kotak=PhotoImage(file='screen book.png')
+    kotak=PhotoImage(file='images\\screen book.png')
     Label(s_kb,image=kotak,background="white").place(x=0,y=0)
 
-    exit_button2=PhotoImage(file="exit button.png")
-    print_button2=PhotoImage(file="print button.png")    
+    exit_button2=PhotoImage(file="images\\exit button.png")
+    print_button2=PhotoImage(file="images\\print button 2.png")
+    hs_button2=PhotoImage(file="images\\home button.png")      
     exittt=Button(s_kb,image=exit_button2, borderwidth=0, cursor="hand2", 
-    bd=0, font=("arial, 16"), background="white",command=exitt)
+    bd=0, font=("arial, 16"), background="white",command=exit)
     exittt.place(x=330,y=430)
     printtt=Button(s_kb,image=print_button2, borderwidth=0, cursor="hand2", 
-    bd=0, font=("arial, 16"), background="white",command=printt)
-    printtt.place(x=500,y=430)
+    bd=0, font=("arial, 16"), background="#141945",command=printt,activebackground="#141945")
+    printtt.place(x=650,y=323)
+    hs=Button(s_kb,image=hs_button2, borderwidth=0, cursor="hand2", 
+    bd=0, font=("arial, 16"), background="white",command=balikhs)
+    hs.place(x=500,y=430)
 
 
     pembayaran()
@@ -1036,6 +1025,10 @@ def ds_kb():
 def balikrp():
     s_kb.destroy()
     ds_rp()
+
+def balikhs():
+    s_kb.destroy()
+    ds_pf()
 
 
 mainloop()
