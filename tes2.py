@@ -1,12 +1,385 @@
 from tkinter import *
 from PIL import ImageTk, Image
 import pandas as pd
-
+from fpdf import FPDF
+import random, string
+import datetime
+import tkinter.messagebox as messagebox
 
 win=Tk()
 win.title("Cinemakmur Premiere")
- 
 
+ 
+def login1():
+    userData = pd.read_csv('userdatabase.csv')
+    df = pd.DataFrame(userData)
+    
+
+    global user
+    global pasw
+    global nomor
+    user=username_entry.get()
+    pasw=password_entry.get()
+ 
+    matching_creds = (len(df[(df.username == user) & (df.password == pasw)]) > 0)
+
+    if matching_creds:
+        print('success')
+        ds_pf()
+        win.destroy()
+    else:
+        print('\nYour account is not registered yet!')
+        print('please contact admin')
+        messagebox.showinfo("Ingpo", "Username atau password anda salah")
+def register1():
+    userData = pd.read_csv('userdatabase.csv')
+    df = pd.DataFrame(userData)
+
+    global user
+    global pasw
+    user=username_entry2.get()
+    pasw=password_entry2.get()
+    namalengkap=nama_entry2.get()
+
+    matching_creds = (len(df[(df.username == user) ]) < 1)
+
+    if matching_creds and user != "":
+        print('success')
+        newuser = {'username' : [user],
+                   'password' : [pasw],
+                   'namalengkap' : [namalengkap]}
+        registeruser = pd.DataFrame(newuser)
+        registeruser.to_csv('userdatabase.csv', mode='a', index=False, header=False)
+        messagebox.showinfo("Ingpo", "Register berhasil")
+        s_rs.destroy()
+    else:
+        s_rs.destroy()
+        messagebox.showinfo("Ingpo", "Mohon isi data diri dengan benar")
+        registerscreen()
+
+def id_generator(size=15, chars=string.ascii_uppercase + string.digits):
+  return ''.join(random.choice(chars) for _ in range(size))
+def pembayaran():
+  datapembelian = pd.read_csv('datapembelian.csv')
+  dfdp = pd.DataFrame(datapembelian)
+  while True:
+    id_generator()
+    if (len(dfdp.loc[dfdp['kodebayar'] == id_generator])) < 1:
+        global id
+        id = id_generator()
+        print(id)
+        break
+        
+  return id
+def rekapbeli():
+    global nomor
+    datapembelian = pd.read_csv('datapembelian.csv')
+    dfdt = pd.DataFrame(datapembelian)
+    ambildatauser = pd.read_csv('userdatabase.csv',index_col = 'username')
+    dfadu = pd.DataFrame(ambildatauser)
+    nomor = dfadu.loc[user, 'nomor']
+    namalengkap = dfadu.loc[user,'namalengkap']
+    countrow = dfdt.shape[0]
+    nopembelian = f"{(countrow + 1):08d}"
+    waktupembelian = datetime.datetime.now()
+    
+    databelibaru = {'nopembelian' : [nopembelian],
+                'waktupembelian' : [waktupembelian],
+                'user' : [user],
+                'namalengkap' : [namalengkap],
+                'nomor' : [nomor],
+                'judul' : [dfdf['judul'].iloc[x]],
+                'waktu' : [pickjam[0]],
+                'tanggal' : [picktanggal[0]],
+                'kodebayar' : [id],
+                }
+    inputdatapembelian = pd.DataFrame(databelibaru)
+    inputdatapembelian.to_csv('datapembelian.csv', mode='a', index=False, header=False)
+
+    print('')
+
+
+
+def registerscreen():
+    global s_rs
+    s_rs = Toplevel()
+    s_rs.title('Pemilihan Film')
+    s_rs.config(background="white")
+    s_rs.geometry('1920x1080')
+    s_rs.resizable(False,False)    
+    bg_frame = Image.open('images\\M6new.png')
+    photo = ImageTk.PhotoImage(bg_frame)
+    bg_panel = Label(s_rs, image=photo)
+    bg_panel.image = photo
+    bg_panel.pack(fill='both', expand='yes')
+
+    # ====== Login Frame =========================
+    global lgn_frame
+    lgn_frame = Frame(s_rs, bg='white', width=950, height=600)
+    lgn_frame.place(x=300, y=100)
+
+    # ========================================================================
+    # ========================================================
+    # ========================================================================
+    txt = "Cinemakmur Premiere"
+    heading = Label(lgn_frame, text=txt, font=('yu gothic ui', 25, "bold"), bg="#ffffff",
+                        fg='Gold',
+                        bd=5,
+                        relief=FLAT)
+    heading.place(x=50, y=30, width=400, height=30)
+
+
+    # ========================================================================
+    # ============ Left Side Image ================================================
+    # ========================================================================
+    side_image = Image.open('images\\Gnew2.png')
+    photo = ImageTk.PhotoImage(side_image)
+    side_image_label = Label(lgn_frame, image=photo, bg='#ffffff')
+    side_image_label.image = photo
+    side_image_label.place(x=0, y=30)
+    
+
+    # ========================================================================
+    # ============ Sign In label =============================================
+    # ========================================================================
+    sign_in_label = Label(lgn_frame, text="Sign Up", bg="#ffffff", fg="navy",
+                                font=("yu gothic ui", 17, "bold"))
+    sign_in_label.place(x=550, y=130)
+
+    # ========================================================================
+    # ============================username====================================
+    # ========================================================================
+    global password_entry2, username_entry2, nama_entry2
+    username_label = Label(lgn_frame, text="Username", bg="#ffffff", fg="#4f4e4d",
+                                font=("yu gothic ui", 13, "bold"))
+    username_label.place(x=550, y=190)
+
+    username_entry2 = Entry(lgn_frame, highlightthickness=0, relief=FLAT, bg="#ffffff", fg="#6b6a69",
+                                font=("yu gothic ui ", 12, "bold"))
+    username_entry2.place(x=550, y=225, width=270)
+
+    username_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
+    username_line.place(x=550, y=249)
+    
+    #====================NAMA===============
+    nama_label = Label(lgn_frame, text="Nama", bg="#ffffff", fg="#4f4e4d",
+                                font=("yu gothic ui", 13, "bold"))
+    nama_label.place(x=550, y=350)
+
+    
+    nama_entry2 = Entry(lgn_frame, highlightthickness=0, relief=FLAT, bg="#ffffff", fg="#6b6a69",
+                                font=("yu gothic ui", 12, "bold"))
+    nama_entry2.place(x=550, y=387, width=244)
+
+    nama_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
+    nama_line.place(x=550, y=410)
+
+    # No hp
+
+
+
+
+    # ========================================================================
+    # ============================login button================================
+    # ========================================================================
+    Belitiket_btnimg=PhotoImage(file="images\\btn1.png")
+    belitiket_btn=Button(lgn_frame,image=Belitiket_btnimg, borderwidth=0,fg = "#ffffff", 
+                    cursor="hand2", bd=0, font=("yu gothic ui", 14, "bold"), 
+                    background="white",activebackground='#ffffff',wraplength=100,
+                    text=("REGISTER"),compound="center",
+                    command = register1)
+    belitiket_btn.place(x=550, y=420)
+    
+    # =========== Sign Up ==================================================
+    sign_button = Button(lgn_frame, text='Already Have Account', font=("yu gothic ui", 11, "bold"),
+                            relief=FLAT, borderwidth=0, background="#ffffff", fg='black',command=lambda: s_rs.destroy())
+    sign_button.place(x=622, y=485)
+
+
+
+
+    # ========================================================================
+    # ============================password====================================
+    # ========================================================================
+    password_label = Label(lgn_frame, text="Password", bg="#ffffff", fg="#4f4e4d",
+                                font=("yu gothic ui", 13, "bold"))
+    password_label.place(x=550, y=270)
+
+    
+    password_entry2 = Entry(lgn_frame, highlightthickness=0, relief=FLAT, bg="#ffffff", fg="#6b6a69",
+                                font=("yu gothic ui", 12, "bold"), show="*")
+    password_entry2.place(x=550, y=306, width=244)
+
+    password_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
+    password_line.place(x=550, y=330)
+
+    # ========= show/hide password ==================================================================
+    show_image = ImageTk.PhotoImage \
+        (file='images\\show.png')
+
+    hide_image = ImageTk.PhotoImage \
+        (file='images\\hide.png')
+
+
+    def show():
+        hide_button = Button(lgn_frame, image=hide_image, command=hide, relief=FLAT,
+                                    activebackground="white"
+                                    , borderwidth=0, background="white", cursor="hand2")
+        hide_button.place(x=860, y=320)
+        password_entry.config(show='')
+
+    def hide():
+        show_button = Button(lgn_frame, image=show_image, command=show, relief=FLAT,
+                                    activebackground="white"
+                                    , borderwidth=0, background="white", cursor="hand2")
+        show_button.place(x=860, y=320)
+        password_entry.config(show='*')
+
+        show_button = Button(lgn_frame, image=show_image, command=show, relief=FLAT,
+                                activebackground="white"
+                                , borderwidth=0, background="white", cursor="hand2")
+        show_button.place(x=860, y=320)
+    s_rs.mainloop()
+
+
+def loginbaru():
+      bg_frame = Image.open('images\\M6new.png')
+      photo = ImageTk.PhotoImage(bg_frame)
+      bg_panel = Label(win, image=photo)
+      bg_panel.image = photo
+      bg_panel.pack(fill='both', expand='yes')
+
+      # ====== Login Frame =========================
+      global lgn_frame
+      lgn_frame = Frame(win, bg='white', width=950, height=600)
+      lgn_frame.place(x=300, y=110)
+
+      # ========================================================================
+      # ========================================================
+      # ========================================================================
+      txt = "Cinemakmur Premiere"
+      heading = Label(lgn_frame, text=txt, font=('yu gothic ui', 25, "bold"), bg="#ffffff",
+                            fg='Gold',
+                            bd=5,
+                            relief=FLAT)
+      heading.place(x=50, y=30, width=400, height=30)
+
+
+      # ========================================================================
+      # ============ Left Side Image ================================================
+      # ========================================================================
+      side_image = Image.open('images\\Gnew2.png')
+      photo = ImageTk.PhotoImage(side_image)
+      side_image_label = Label(lgn_frame, image=photo, bg='#ffffff')
+      side_image_label.image = photo
+      side_image_label.place(x=0, y=30)
+      
+
+      # ========================================================================
+      # ============ Sign In label =============================================
+      # ========================================================================
+      sign_in_label = Label(lgn_frame, text="Sign In", bg="#ffffff", fg="navy",
+                                  font=("yu gothic ui", 17, "bold"))
+      sign_in_label.place(x=550, y=140)
+
+      # ========================================================================
+      # ============================username====================================
+      # ========================================================================
+      global password_entry, username_entry
+      username_label = Label(lgn_frame, text="Username", bg="#ffffff", fg="#4f4e4d",
+                                  font=("yu gothic ui", 13, "bold"))
+      username_label.place(x=550, y=200)
+
+      username_entry = Entry(lgn_frame, highlightthickness=0, relief=FLAT, bg="#ffffff", fg="#6b6a69",
+                                  font=("yu gothic ui ", 12, "bold"))
+      username_entry.place(x=550, y=235, width=270)
+
+      username_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
+      username_line.place(x=550, y=259)
+  
+    
+
+      # ========================================================================
+      # ============================login button================================
+      # ========================================================================
+      
+      lgn_button = Image.open('images\\btn1.png')
+      photo = ImageTk.PhotoImage(lgn_button)
+      lgn_button_label = Label(lgn_frame, image=photo, bg='#ffffff')
+      lgn_button_label.image = photo
+      lgn_button_label.place(x=550, y=350)
+      login = Button(lgn_button_label,command=login1, text='LOGIN', font=("yu gothic ui", 13, "bold"), width=25, bd=0,
+                          bg='#3047ff', cursor='hand2', activebackground='#3047ff', fg='white')
+      login.place(x=20, y=10)
+      
+      # =========== Sign Up ==================================================
+      sign_label = Label(lgn_frame, text='No account yet?', font=("yu gothic ui", 11, "bold"),
+                              relief=FLAT, borderwidth=0, background="#ffffff", fg='black')
+      sign_label.place(x=550, y=435)
+
+      lgn_button2 = Image.open('images\\register.png')
+      photo2 = ImageTk.PhotoImage(lgn_button2)
+      lgn_button_label2 = Button(lgn_frame, image=photo2, bg='#ffffff',borderwidth=0,
+                                    command=registerscreen)
+      lgn_button_label2.image = photo2
+      lgn_button_label2.place(x=670, y=430, width=111, height=35)
+
+
+      # ========================================================================
+      # ============================password====================================
+      # ========================================================================
+      password_label = Label(lgn_frame, text="Password", bg="#ffffff", fg="#4f4e4d",
+                                  font=("yu gothic ui", 13, "bold"))
+      password_label.place(x=550, y=280)
+
+      
+      password_entry = Entry(lgn_frame, highlightthickness=0, relief=FLAT, bg="#ffffff", fg="#6b6a69",
+                                  font=("yu gothic ui", 12, "bold"), show="*")
+      password_entry.place(x=550, y=316, width=244)
+
+      password_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
+      password_line.place(x=550, y=340)
+    
+      # ========= show/hide password ==================================================================
+      show_image = ImageTk.PhotoImage \
+          (file='images\\show.png')
+
+      hide_image = ImageTk.PhotoImage \
+          (file='images\\hide.png')
+
+      def show():
+        hide_button = Button(lgn_frame, image=hide_image, command=hide, relief=FLAT,
+                                  activebackground="white"
+                                  , borderwidth=0, background="white", cursor="hand2")
+        hide_button.place(x=860, y=320)
+        password_entry.config(show='')
+
+      def hide():
+        show_button = Button(lgn_frame, image=show_image, command=show, relief=FLAT,
+                                  activebackground="white"
+                                  , borderwidth=0, background="white", cursor="hand2")
+        show_button.place(x=860, y=320)
+        password_entry.config(show='*')
+
+      show_button = Button(lgn_frame, image=show_image, command=show, relief=FLAT,
+                                activebackground="white"
+                                , borderwidth=0, background="white", cursor="hand2")
+      show_button.place(x=860, y=320)
+
+loginbaru()
+
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
+  return ''.join(random.choice(chars) for _ in range(size))
+def pembayaran():
+  datapembelian = pd.read_csv('datapembelian.csv')
+  dfdp = pd.DataFrame(datapembelian)
+  while True:
+    id_generator()
+    if (len(dfdp.loc[dfdp['kodebayar'] == id_generator])) < 1:
+        global id
+        id = id_generator()
+        print(id)
+        break
 
 def ds_pf():
     global s_pf
@@ -58,9 +431,6 @@ def ds_pf():
         global pilihanfilm
         pilihanfilm=x
     button_beli(1)
-        
-
-
 
     def button_poster():
         for i in range (len(daftarposter)-2):
@@ -193,8 +563,6 @@ def ds_pj():
             command=lambda:tanggal_forward()
             ).place(x=890,y=138,)   
 
-
-
     tanggal_tersedia = pd.read_csv('datakursi2.csv')
     dftt = pd.DataFrame(tanggal_tersedia)
 
@@ -259,8 +627,6 @@ def ds_pj():
     picktanggal=[]
     button_tanggal()
 
-#==================================
-
     jam_tersedia = pd.read_csv('datakursi2.csv')
     dfjt = pd.DataFrame(jam_tersedia)
 
@@ -296,8 +662,6 @@ def ds_pj():
     pickjam=[]
     button_jam()
 
-
-#============error popup==========
     error_box=PhotoImage(file='MSG BOX.png')
     error_pop=Label(s_pj,image=error_box)
     error_msg=Label(s_pj,font=('yu gothic ui', 16),text="Silahkan pilih jadwal anda!",
@@ -336,14 +700,12 @@ def ds_pk():
         s_pk.geometry('1000x600')
         s_pk.resizable(False,False)
 
-
         back_btn=PhotoImage(file="Buttonback.png")
         Button(s_pk,image=back_btn, borderwidth=0, 
                 cursor="hand2", bd=0, font=("arial, 16"), 
                 background="white",activebackground='#ffffff',
                 command=lambda:balikpj()
                 ).place(x=10,y=10,)  
-
 
         heading=Label(s_pk,text='Pilih Kursi Anda', font=('arial', 15, 'bold'), background="white")
         heading.place(x=50,y=50)
@@ -398,8 +760,6 @@ def ds_pk():
                     command =lambda:[ds_rp()],background="white")
         beli.place(x=670,y=440)
 
-
-
         def cariindekskursi():
             global indekskursi
             datakursi2 = pd.read_csv('datakursi2.csv')
@@ -436,7 +796,6 @@ def ds_pk():
                 login.configure(bg='#3047ff',command =lambda:del_picked_seatno(seat_code))
                 print("ADALUR")
 
-
         def availableseat():
             kursifilm = pd.read_csv('datakursi2.csv')
             dfkf = pd.DataFrame(kursifilm)
@@ -453,7 +812,6 @@ def ds_pk():
                     print('%d Booked' %(a-6))
                     makebutton("booked",a,column,row)
             print()
-
 
         def store_picked_seatno(seat_code):
             pickedseat.append(seat_code)
@@ -492,21 +850,11 @@ def ds_pk():
         global pickedseat,pickedseat_code
 
         pickedseat=[]
-        pickedseat_code=[]
-
-
-#============error popup==========
-
-        
+        pickedseat_code=[]        
 
         cariindekskursi()
         availableseat()
         s_pk.mainloop()
-
-
-    
-
-
 
 def ds_rp():
     if len(pickedseat)!= 0:
@@ -619,20 +967,86 @@ def ds_rp():
                 print(pickedseat[i])
             pickedseat.clear()
         Beli_button2=PhotoImage(file="Button.png")
-        beli2=Button(s_rp,image=Beli_button2, borderwidth=0, cursor="hand2", bd=0, font=("arial, 16"), background="white",command=pickseat)
+        beli2=Button(s_rp,image=Beli_button2, borderwidth=0, cursor="hand2", bd=0, font=("arial, 16"), background="white",command=lambda:[pickseat(),ds_kb()])
         beli2.place(x=680,y=400)
-
-            
 
         s_rp.mainloop()
     else:
-        print("Error")
+        messagebox.showinfo("Ingpo", "Mohon pilih kursi anda")
 
 def balikpk():
     s_rp.destroy()
     ds_pk()
 
+def ds_kb():
+    
+    global s_kb
+    s_rp.destroy()
+    s_kb = Toplevel()
+    s_kb.title('Pemilihan Jadwal')
+    s_kb.config(background="white")
+    s_kb.geometry('1000x600')
+    s_kb.resizable(False,False)
+
+    def exitt():
+        win.destroy()
+    def printt():
+        class PDF(FPDF):
+            def header(self):
+                # Logo
+                self.image('background2.jpeg', 60, 40, 80)
+                self.image(dfdf['poster'].iloc[pilihanfilm], 135, 28, 45)
+                #font
+                self.set_font('helvetica', 'B', 20)
+                # Arial bold 15
+                self.set_font('helvetica', 'B', 20)
+                # Title
+                self.cell(0, 0, '_________________________________________', border=False, ln=1, align ='C')
+                self.cell(0, 0, 'THE CINEMAKMUR PREMIERE', border=False, ln=1, align ='C')
+                # Line break
+                self.ln(0)
+
+        pdf = PDF('P','mm', (200, 110))
+        pdf.alias_nb_pages()
+        pdf.add_page()
+        pdf.cell(5, 20, ' ', 0, 1)
+        pdf.set_font('Arial', 'bu', 14)
+        pdf.cell(103, 7, dfdf['judul'].iloc[pilihanfilm], border=False, ln=1)
+        pdf.set_font('Arial', 'b', 10)
+        pdf.cell(5, 5, ' ', 0, 1)
+        pdf.cell(5, 7, 'Date    : %s Juli 2022'%picktanggal[0], 0, 1)
+        pdf.cell(5, 7, 'Time    : %d:00'%pickjam[0], 0, 1)
+        pdf.cell(5, 7, 'Seat    : %s'%pickedseat_code, 0, 1)
+        pdf.cell(5, 7, 'Price   : %s' %('Rp%d'%((len(pickedseat_code)*45000)+4000)), 0, 1)
+        pdf.cell(5, 7, ' ', 0, 1)
+        pdf.set_font('Arial', 'b', 12)
+        pdf.cell(67, 10, 'KODE BOOKING : %s'%id, 1, 1, 'C')
+        pdf.output('tiket_bioskop.pdf', 'F')
+
+    kotak=PhotoImage(file='screen book.png')
+    Label(s_kb,image=kotak,background="white").place(x=0,y=0)
+
+    exit_button2=PhotoImage(file="exit button.png")
+    print_button2=PhotoImage(file="print button.png")    
+    exittt=Button(s_kb,image=exit_button2, borderwidth=0, cursor="hand2", 
+    bd=0, font=("arial, 16"), background="white",command=exitt)
+    exittt.place(x=330,y=430)
+    printtt=Button(s_kb,image=print_button2, borderwidth=0, cursor="hand2", 
+    bd=0, font=("arial, 16"), background="white",command=printt)
+    printtt.place(x=500,y=430)
 
 
-ds_pf()
+    pembayaran()
+    print(id)
+    kode_booking=Label(s_kb,text=id, font=('arial', 25), background="#141945",fg="white")
+    kode_booking.place(x=385,y=320)
+    rekapbeli()
+
+    s_kb.mainloop()    
+
+def balikrp():
+    s_kb.destroy()
+    ds_rp()
+
+
 mainloop()

@@ -136,7 +136,7 @@ def pickseat():
   dfdk.to_csv("datakursi2.csv")
   return kursipilihan
   print()
-def id_generator(size=15, chars=string.ascii_uppercase + string.digits):
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
   return ''.join(random.choice(chars) for _ in range(size))
 def pembayaran():
   datapembelian = pd.read_csv('datapembelian.csv')
