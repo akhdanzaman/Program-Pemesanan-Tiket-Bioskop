@@ -74,7 +74,6 @@ def rekapbeli():
                 'waktupembelian' : [waktupembelian],
                 'user' : [user],
                 'namalengkap' : [namalengkap],
-                'nomor' : [nomor],
                 'judul' : [dfdf['judul'].iloc[pilihanfilm]],
                 'waktu' : [pickjam[0]],
                 'tanggal' : [picktanggal[0]],
@@ -104,17 +103,6 @@ def registerscreen():
     global lgn_frame
     lgn_frame = Frame(s_rs, bg='white', width=950, height=600)
     lgn_frame.place(x=300, y=100)
-
-    # ========================================================================
-    # ========================================================
-    # ========================================================================
-    txt = "Cinemakmur Premiere"
-    heading = Label(lgn_frame, text=txt, font=('yu gothic ui', 25, "bold"), bg="#ffffff",
-                        fg='Gold',
-                        bd=5,
-                        relief=FLAT)
-    heading.place(x=50, y=30, width=400, height=30)
-
 
     # ========================================================================
     # ============ Left Side Image ================================================
@@ -161,7 +149,6 @@ def registerscreen():
     nama_line = Canvas(lgn_frame, width=300, height=2.0, bg="#bdb9b1", highlightthickness=0)
     nama_line.place(x=550, y=410)
 
-    # No hp
 
 
 
@@ -241,15 +228,8 @@ def loginbaru():
       lgn_frame = Frame(win, bg='white', width=950, height=600)
       lgn_frame.place(x=300, y=110)
 
-      # ========================================================================
-      # ========================================================
-      # ========================================================================
-      txt = "Cinemakmur Premiere"
-      heading = Label(lgn_frame, text=txt, font=('yu gothic ui', 25, "bold"), bg="#ffffff",
-                            fg='Gold',
-                            bd=5,
-                            relief=FLAT)
-      heading.place(x=50, y=30, width=400, height=30)
+
+
 
 
       # ========================================================================
