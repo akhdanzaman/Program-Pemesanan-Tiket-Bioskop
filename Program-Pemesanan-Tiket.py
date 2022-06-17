@@ -556,6 +556,9 @@ def ds_pj():
     locfilm = (dftt["tanggal"])
     daftartanggal = locfilm.tolist()
     daftartanggal_clear=(list(dict.fromkeys(daftartanggal)))
+    if datetime.datetime.now().day>daftartanggal_clear[0]:
+        del daftartanggal_clear[0:daftartanggal_clear.index(datetime.datetime.now().day)]
+    print(daftartanggal_clear)
     jadwal_btnp=PhotoImage(file="images\\Buttontglpasif.png")
     jadwal_btna=PhotoImage(file="images\\Buttontglaktif.png")
     global displaytanggal
@@ -595,7 +598,7 @@ def ds_pj():
             tgl_button=Button(s_pj,image=jadwal_btnp, borderwidth=0,fg = "#424243", 
                     cursor="hand2", bd=0, font=("yu gothic ui", 14, "bold"), 
                     background="white",activebackground='#ffffff',
-                    text="%d %s"%(displaytanggal[i],bulan[6]),compound="center",
+                    text="%d %s"%(displaytanggal[i],bulan[(datetime.datetime.now().month)-1]),compound="center",
                     command=lambda i=i:fpicktanggal(displaytanggal[i]))
             tgl_button.place(x=595+(i*100),y=133)
             print(picktanggal.count(displaytanggal[i])>0)
